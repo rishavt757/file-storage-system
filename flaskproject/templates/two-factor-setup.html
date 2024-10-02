@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <legend class="border-bottom mb-4">Two Factor Authentication Setup</legend>
+    <p>You are almost done! Please start any 2FA app on your smartphone and scan the following QR Code with it</p>
+    <p><img id="qrcode" class="img-fluid" src="{{ url_for('users.qrcode') }}"></p>
+    <div class="border-top pt-3">
+        <small class="text-muted">
+            I'm done, take me to the<a class="ml-2" href="{{ url_for('users.login_func') }}"><b>Login page!</b></a></p>
+        </small>
+    </div>
+{% endblock content %}

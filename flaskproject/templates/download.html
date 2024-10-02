@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="content-section">
+        <form method="POST" action="" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <fildset class="form-group">
+                <legend class="border-bottom mb-4">Download Your File</legend>
+                <div class="form-group">
+                    {{ form.file_key.label() }}
+                    {{ form.file_key(class="form-control-file") }}
+                    {% if form.file_key.errors %}
+                        {% for error in form.file_key.errors %}
+                            <span class="text-danger">{{ error }}</span><br>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.submit(class="btn btn-outline-info") }}
+                </div>
+            </fieldset>
+        </form>
+    </div>
+{% endblock content %}

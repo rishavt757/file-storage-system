@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="content-section">
+        <form method="POST" action="" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <fildset class="form-group">
+                <legend class="border-bottom mb-4">Upload A File</legend>
+                <div class="form-group">
+                    {{ form.nof.label() }}
+                    {{ form.nof(class="form-control-file") }}
+                    {% if form.nof.errors %}
+                        {% for error in form.nof.errors %}
+                            <span class="text-danger">{{ error }}</span><br>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.myfile.label() }}
+                    {{ form.myfile(class="form-control-file") }}
+                    {% if form.myfile.errors %}
+                        {% for error in form.myfile.errors %}
+                            <span class="text-danger">{{ error }}</span><br>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.submit(class="btn btn-outline-info") }}
+                </div>
+            </fieldset>
+        </form>
+    </div>
+
+    <div class="content-section">
+        <legend class="border-bottom mb-4">Your Files</legend>
+        <ul class="list-group">
+            {% for file in files %}
+                <li class="list-group-item">
+                    {{ file.your_name }}&nbsp;&nbsp;<b>|</b>&nbsp;<a href="{{ url_for('files.download_func', file_id=file.id, user_id=file.owner_id) }}">Download</a>
+                    <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
+                    <br><small class="text-muted">Uploaded on {{ file.date_uploaded.strftime('%d %b, %Y at %H:%M') }}</small>
+                </li>
+                <!-- Modal -->
+                <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="deleteModalLabel">Delete File "{{ file.your_name }}"?</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <form action="{{ url_for('files.delete_file', file_id=file.id) }}" method="POST">
+                                    <input class="btn btn-danger" type="submit" value="Delete">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+          </ul>
+    </div>
+{% endblock content %}
